@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ede19ad3d0ad04098e6940406756f4, type: 3}
   m_Name: BasicBullet
   m_EditorClassIdentifier: 
-  speed: 13
+  speed: 20
   damage: 5
   canPierce: 0

@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Movement")]
     [SerializeField] private float speed;
+
+    [Header("Player Firing")]
     [SerializeField] private float fireRate; // time to shoot the next bullet
     [SerializeField] private float minLoadingTimer;
     [SerializeField] private float maxLoadingTimer;
@@ -12,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private float _horizontalInput;
     private float _verticalInput;
     private Vector3 _translation;
+    private Vector2 _screenBounds;
+    private float _playerWidth, _playerHeight;
 
     // firing
     private bool canShoot = true;
@@ -20,6 +25,13 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         canShoot = true;
+
+        // screen limits
+        _screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        // half of the player sizes
+        _playerWidth = GetComponentInChildren<SpriteRenderer>().bounds.extents.x;
+        _playerHeight = GetComponentInChildren<SpriteRenderer>().bounds.extents.y;
     }
 
     private void Update()
@@ -37,17 +49,20 @@ public class PlayerController : MonoBehaviour
         _translation = speed * Time.deltaTime * new Vector2(_horizontalInput, _verticalInput).normalized;
         transform.Translate(_translation);
 
-        // Check if is in screen
+        // keep the player inside the screen
+        KeepPlayerInBounds();
+    }
 
-        // Ottieni i limiti dello schermo in unità del mondo
-        // Vector2 screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
-        // float playerWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
-        // float playerHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
-        // clamp position
+    private void KeepPlayerInBounds()
+    {
+        float clampedX = Mathf.Clamp(transform.position.x, -_screenBounds.x + _playerWidth, _screenBounds.x - _playerWidth);
+        float clampedY = Mathf.Clamp(transform.position.y, -_screenBounds.y + _playerHeight, _screenBounds.y - _playerHeight);
+
+        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
     }
     #endregion
 
-    #region SHOOTING
+    #region FIRING
     private void CheckShoot()
     {
         if (!canShoot) return;

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ede19ad3d0ad04098e6940406756f4, type: 3}
   m_Name: Charged2Bullet
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   damage: 20
   canPierce: 1
