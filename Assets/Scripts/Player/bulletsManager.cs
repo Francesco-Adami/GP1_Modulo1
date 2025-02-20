@@ -5,7 +5,7 @@ public class bulletsManager : MonoBehaviour
 {
     [SerializeField] private List<Bullet> bullets = new List<Bullet>();
 
-    // singleton
+    #region singleton
     public static bulletsManager instance { get; private set; }
 
     private void Awake()
@@ -19,6 +19,7 @@ public class bulletsManager : MonoBehaviour
             instance = this;
         }
     }
+    #endregion
 
     public void InstantiateBullet(BulletType bulletType, Vector2 spawnPoint, ShooterType shooterType)
     {

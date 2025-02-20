@@ -130,3 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSettings: {fileID: 11400000, guid: e10a9767ec2069940b2cf5369b4e70dc, type: 2}
+  despawnTime: 3

@@ -14,6 +14,14 @@ public class PlayerBullet : Bullet
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Enemy"))
+        {
+            // TODO - Deal damage
 
+            if (!bulletSettings.CanPierce)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

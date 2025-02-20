@@ -11,3 +11,10 @@ public enum ShooterType
     Enemy,
     Boss,
 }
+
+public enum EnemyType
+{
+    first,
+    second,
+    third,
+}

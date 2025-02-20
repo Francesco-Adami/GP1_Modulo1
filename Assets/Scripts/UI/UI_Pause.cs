@@ -6,7 +6,12 @@ public class UI_Pause : UI_Template
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            UIManager.instance.ShowUI(UIManager.GameUI.InGame);
+            ShowInGameUI();
         }
+    }
+
+    public void ShowInGameUI()
+    {
+        UIManager.instance.ShowUI(UIManager.GameUI.InGame);
     }
 }

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Firing")]
     [SerializeField] private float fireRate; // time to shoot the next bullet
     [SerializeField] private float minLoadingTimer;
-    [SerializeField] private float maxLoadingTimer;
+    [SerializeField] public float maxLoadingTimer;
 
     // movement
     private float _horizontalInput;
@@ -20,7 +20,23 @@ public class PlayerController : MonoBehaviour
 
     // firing
     private bool canShoot = true;
-    private float loadedBullet;
+    private bool mouseHasBeenPressed = false;
+    [HideInInspector] public float loadedBullet;
+
+    // SINGLETON
+    public static PlayerController instance { get; set; }
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -36,6 +52,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.instance.GetCurrentActiveUI() != UIManager.GameUI.InGame) return;
+
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -67,11 +85,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!canShoot) return;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0)) mouseHasBeenPressed = true;
+        if (Input.GetMouseButton(0) && mouseHasBeenPressed)
         {
             loadedBullet += Time.deltaTime;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && mouseHasBeenPressed)
         {
             if (loadedBullet < minLoadingTimer)
             {
@@ -86,6 +105,7 @@ public class PlayerController : MonoBehaviour
                 ShootBullet(BulletType.Charged2);
             }
             loadedBullet = 0;
+            mouseHasBeenPressed = false;
         }
     }
 
