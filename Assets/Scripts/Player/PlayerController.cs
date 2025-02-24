@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player Movement")]
+    [Header("Player Stats")]
+    public int health = 6;
     [SerializeField] private float speed;
+    [SerializeField] private Image playerHealth;
 
     [Header("Player Firing")]
     [SerializeField] private float fireRate; // time to shoot the next bullet
@@ -83,9 +86,9 @@ public class PlayerController : MonoBehaviour
     #region FIRING
     private void CheckShoot()
     {
+        if (Input.GetMouseButtonDown(0)) mouseHasBeenPressed = true;
         if (!canShoot) return;
 
-        if (Input.GetMouseButtonDown(0)) mouseHasBeenPressed = true;
         if (Input.GetMouseButton(0) && mouseHasBeenPressed)
         {
             loadedBullet += Time.deltaTime;
@@ -122,5 +125,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(timer);
         canShoot = true;
     }
+    #endregion
+
+    #region SETTERS
+    public void DoDamage(int damage) { health -= damage; SetShieldTime(); }
+
+    public void SetShieldTime() => playerHealth.fillAmount = (1f / 6f) * health;
     #endregion
 }

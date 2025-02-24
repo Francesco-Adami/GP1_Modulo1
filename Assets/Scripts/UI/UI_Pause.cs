@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_Pause : UI_Template
 {
@@ -13,5 +14,10 @@ public class UI_Pause : UI_Template
     public void ShowInGameUI()
     {
         UIManager.instance.ShowUI(UIManager.GameUI.InGame);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }

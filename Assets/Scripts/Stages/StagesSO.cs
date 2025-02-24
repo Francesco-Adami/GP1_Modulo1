@@ -5,8 +5,6 @@ using UnityEngine;
 public class StagesSO : ScriptableObject
 {
     public List<EnemyWithQuantity> enemies;
-    public float spawnTime;
-
 }
 
 [System.Serializable]

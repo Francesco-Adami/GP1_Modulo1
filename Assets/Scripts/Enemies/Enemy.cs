@@ -3,23 +3,21 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    // hanno vita ? 
-    [SerializeField] protected EnemyType enemyType;
+    [SerializeField] protected int health;
     [SerializeField] protected float speed;
-    [SerializeField] protected float fireRate;
 
     protected Vector2 direction;
     protected Vector2 _screenBounds;
     protected bool canShoot;
 
-    private void Start()
+    protected virtual void Start()
     {
         _screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
         SetDirection();
         canShoot = true;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (UIManager.instance.GetCurrentActiveUI() != UIManager.GameUI.InGame) return;
 
@@ -28,7 +26,7 @@ public abstract class Enemy : MonoBehaviour
         MoveEnemy(direction);
         CheckEnemyArrived();
 
-        TryShoot();
+        CheckForHealth();
     }
 
     #region MOVEMENT
@@ -54,7 +52,6 @@ public abstract class Enemy : MonoBehaviour
         Shoot();
     }
 
-
     protected IEnumerator ShootRoutine(float timer)
     {
         yield return new WaitForSeconds(timer);
@@ -62,6 +59,8 @@ public abstract class Enemy : MonoBehaviour
     }
     #endregion
 
+    public void DoDamage(int damage) { health -= damage; }
+    protected void CheckForHealth() { if (health <= 0) Destroy(gameObject); }
 
     protected abstract void SetDirection(); // set with different patterns
     protected abstract void Shoot();

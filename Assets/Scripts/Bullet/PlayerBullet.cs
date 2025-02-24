@@ -2,26 +2,41 @@ using UnityEngine;
 
 public class PlayerBullet : Bullet
 {
-    void Update()
-    {
-        AdvanceProjectile();
-    }
-
     protected override void AdvanceProjectile()
     {
-        transform.Translate(bulletSettings.Speed * Time.deltaTime * direction);
+        if (UIManager.instance.GetCurrentActiveUI() != UIManager.GameUI.InGame) return;
+        transform.Translate(bulletSettings.Speed * Time.deltaTime * direction.normalized);
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void Despawn()
     {
-        if (other.CompareTag("Enemy"))
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
         {
             // TODO - Deal damage
+            collision.GetComponent<Enemy>().DoDamage(bulletSettings.Damage);
 
             if (!bulletSettings.CanPierce)
             {
-                Destroy(gameObject);
+                Despawn();
             }
+        }
+
+        if (collision.CompareTag("Boss"))
+        {
+            // TODO - Deal damage
+            collision.GetComponent<Boss>().DoDamage(bulletSettings.Damage);
+            Despawn();
+        }
+
+        if (collision.CompareTag("OutMap"))
+        {
+            Despawn();
         }
     }
 }

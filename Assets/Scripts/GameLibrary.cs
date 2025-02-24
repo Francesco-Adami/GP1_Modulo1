@@ -12,9 +12,8 @@ public enum ShooterType
     Boss,
 }
 
-public enum EnemyType
+public enum BossShootingType
 {
-    first,
-    second,
-    third,
+    Basic,
+    Rotating,
 }

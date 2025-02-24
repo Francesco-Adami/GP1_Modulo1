@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9ca7d40f89c404db1771f6f34acb44, type: 3}
   m_Name: Stage 2
   m_EditorClassIdentifier: 
-  enemies: []
-  spawnTime: 0
+  enemies:
+  - enemy: {fileID: 3998059060221430439, guid: 04a2f9efa4ceff04d840f23d96aa6780, type: 3}
+    quantity: 5
+  - enemy: {fileID: -3746597459681922746, guid: 33a71ed86769ac8408410c6a0db8f58f, type: 3}
+    quantity: 5
+  - enemy: {fileID: 7605116395458106987, guid: 9abeb16a0062e7a4787478a63e100ee9, type: 3}
+    quantity: 2
